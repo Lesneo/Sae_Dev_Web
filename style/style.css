@@ -1,0 +1,17 @@
+
+.titre {
+    color:cornflowerblue;
+}
+
+#icon {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+}
+
+@media screen and (max-width: 640px) {
+    #icon {
+      position: absolute;
+      left: -999em;
+    }
+  }

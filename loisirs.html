@@ -21,7 +21,13 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <py-config>
+    packages = [
+      "pandas"
+    ]
+  </py-config>
 
 </head>
 
@@ -214,11 +220,11 @@
                 <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
               </div>
               <div class="my-3">
-                <div class="loading">Loading</div>
+                <div class="loading">Chargement</div>
                 <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
+                <div class="sent-message">Votre message a bien été envoyé, merci!</div>
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center"><button type="submit">Envoyer le message</button></div>
             </form>
           </div>
 
@@ -228,6 +234,77 @@
     </section>
 
   </main>
+  <py-script>
+    # On importe les bibliothèques qui nous seront utiles
+    from pandas import *  # pour lire, importer et manipuler des données sous forme tableur
+    # Importation des données "Démographie" dans un dataframe
+    from pyodide.http import open_url
+    tableAliments = read_excel(open_url("https://gitcdn.link"))
+    print(tableAliments)
+    tableSondage = read_excel('Sondage_1.xlsx')
+    print(tableSondage.head())
+    lables = tableSondage.columns[8:]
+    taille = len(tableSondage.Nom)
+    bio = 0
+    halal = 0
+    vegan = 0
+    casher = 0
+    habitantBio = []
+    habitantHalal = []
+    habitantVegan = []
+    habitantcasher = []
+
+    for i in range(taille) :
+        for j in range(len(lables)) :
+            aliment = tableSondage[lables[j]][i]
+            nomAliment = tableAliments[tableAliments.alim_code==aliment].alim_nom_fr
+            print(nomAliment.values)
+            if "bio" in nomAliment.values[0] :
+                bio+=1
+            if "halal" in nomAliment.values[0] :
+                halal+=1
+            if "vegan" in nomAliment.values[0] :
+                vegan+=1
+            if "casher" in nomAliment.values[0] :
+                casher+=1
+        if bio >= 5 :
+            habitantBio.append(tableSondage.Nom[i])
+        if halal >= 5 :
+            habitantHalal.append(tableSondage.Nom[i])
+        if vegan >= 5 :
+            habitantVegan.append(tableSondage.Nom[i])
+        if casher >= 5 :
+            habitantcasher.append(tableSondage.Nom[i])
+
+        bio = 0
+        halal = 0
+        vegan = 0
+        casher = 0
+    print(habitantBio)
+    print(habitantcasher)
+    print(habitantVegan)
+    print(habitantHalal)
+    categorie = tableAliments.alim_grp_nom_fr.unique()
+    listeCat = []
+    for i in categorie :
+        listeCat.append([i,0])
+    #print(listeCat)
+
+
+    for i in range(taille) :
+        for j in range(len(lables)) :
+            aliment = tableSondage[lables[j]][i]
+            catAliment = tableAliments[tableAliments.alim_code==aliment].alim_grp_code
+            listeCat[catAliment.values[0]-1][1]+=1
+
+
+    def takeSecond(elem):
+        return elem[1]
+
+    #print(listeCat)
+    listeCat.sort(key=takeSecond, reverse=True)
+    print(listeCat)
+  </py-script>
 
 
   <footer id="footer">
@@ -238,7 +315,7 @@
 
 
           <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Useful Links</h4>
+            <h4>Liens utiles</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Centre Intercommunal d'Action Sociale Privas Centre Ardèche</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">T'CAP, le réseau de transport collectif</a></li>
@@ -250,7 +327,7 @@
           </div>
 
           <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Our Services</h4>
+            <h4>Nos services</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Nos offres d'emploi</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Notre magazine</a></li>
@@ -263,14 +340,7 @@
             </ul>
           </div>
 
-          <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Our Newsletter</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-
-          </div>
+          
 
         </div>
       </div>

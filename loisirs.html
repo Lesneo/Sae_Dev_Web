@@ -21,14 +21,6 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-  <py-config>
-    packages = [
-      "pandas"
-    ]
-  </py-config>
-
 </head>
 
 <body>
@@ -45,7 +37,7 @@
           <li><a class="nav-link scrollto" href="index.html">La communauté</a></li>
           <li><a class="nav-link scrollto" href="actus.html">Les actus</a></li>
           <li><a class="nav-link scrollto" href="#services">Economie</a></li>
-          <li><a class="nav-link scrollto" href="#horo">Services à la personne</a></li>
+          <li><a class="nav-link scrollto" href="sondage.html">Services à la personne</a></li>
           <li><a class="nav-link scrollto" href="loisirs.html">Loisirs</a></li>
           <li class="dropdown"><a href="#"><span>Autre</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -234,79 +226,6 @@
     </section>
 
   </main>
-  <py-script>
-    # On importe les bibliothèques qui nous seront utiles
-    from pandas import *  # pour lire, importer et manipuler des données sous forme tableur
-    # Importation des données "Démographie" dans un dataframe
-    from pyodide.http import open_url
-    tableAliments = read_excel(open_url("https://lesneo.github.io/Sae_Dev_Web/Aliments.xlsx"))
-    print(tableAliments)
-    tableSondage = read_excel('Sondage_1.xlsx')
-    print(tableSondage.head())
-    lables = tableSondage.columns[8:]
-    taille = len(tableSondage.Nom)
-    bio = 0
-    halal = 0
-    vegan = 0
-    casher = 0
-    habitantBio = []
-    habitantHalal = []
-    habitantVegan = []
-    habitantcasher = []
-
-    for i in range(taille) :
-        for j in range(len(lables)) :
-            aliment = tableSondage[lables[j]][i]
-            nomAliment = tableAliments[tableAliments.alim_code==aliment].alim_nom_fr
-            print(nomAliment.values)
-            if "bio" in nomAliment.values[0] :
-                bio+=1
-            if "halal" in nomAliment.values[0] :
-                halal+=1
-            if "vegan" in nomAliment.values[0] :
-                vegan+=1
-            if "casher" in nomAliment.values[0] :
-                casher+=1
-        if bio >= 5 :
-            habitantBio.append(tableSondage.Nom[i])
-        if halal >= 5 :
-            habitantHalal.append(tableSondage.Nom[i])
-        if vegan >= 5 :
-            habitantVegan.append(tableSondage.Nom[i])
-        if casher >= 5 :
-            habitantcasher.append(tableSondage.Nom[i])
-
-        bio = 0
-        halal = 0
-        vegan = 0
-        casher = 0
-    print(habitantBio)
-    print(habitantcasher)
-    print(habitantVegan)
-    print(habitantHalal)
-    categorie = tableAliments.alim_grp_nom_fr.unique()
-    listeCat = []
-    for i in categorie :
-        listeCat.append([i,0])
-    #print(listeCat)
-
-
-    for i in range(taille) :
-        for j in range(len(lables)) :
-            aliment = tableSondage[lables[j]][i]
-            catAliment = tableAliments[tableAliments.alim_code==aliment].alim_grp_code
-            listeCat[catAliment.values[0]-1][1]+=1
-
-
-    def takeSecond(elem):
-        return elem[1]
-
-    #print(listeCat)
-    listeCat.sort(key=takeSecond, reverse=True)
-    print(listeCat)
-  </py-script>
-
-
   <footer id="footer">
     <div class="footer-top">
       <div class="container">

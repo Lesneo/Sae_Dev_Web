@@ -239,7 +239,7 @@
     from pandas import *  # pour lire, importer et manipuler des données sous forme tableur
     # Importation des données "Démographie" dans un dataframe
     from pyodide.http import open_url
-    tableAliments = read_excel(open_url("https://gitcdn.link"))
+    tableAliments = read_excel(open_url("https://lesneo.github.io/Sae_Dev_Web/Aliments.xlsx"))
     print(tableAliments)
     tableSondage = read_excel('Sondage_1.xlsx')
     print(tableSondage.head())

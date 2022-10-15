@@ -1,8 +1,8 @@
 # On importe les bibliothèques qui nous seront utiles
 from pandas import *  # pour lire, importer et manipuler des données sous forme tableur
 from pyodide.http import open_url
-tableAliments = read_csv('Aliments.csv', sep=';')
-tableSondage = read_csv('Sondage_1.csv', sep=';')
+tableAliments = read_csv(open_url('https://raw.githubusercontent.com/Lesneo/Sae_Dev_Web/main/mission2/Aliments.csv'), sep=';')
+tableSondage = read_csv(open_url('https://raw.githubusercontent.com/Lesneo/Sae_Dev_Web/main/mission2/Sondage_1.csv'), sep=';')
 
 lables = tableSondage.columns[8:]
 taille = len(tableSondage.Nom)
@@ -108,7 +108,7 @@ print("<br> <h2> Tableau des aliments les plus choisis dans le sondage </h2> <br
 tableau = '<table class="table table-striped "><thead class="thead-dark"><tr class="table-dark"><th scope="col">Classement</th><th scope="col">Catégorie Aliment</th><th scope="col">Nombre d\'itérations</th></tr></thead><tbody id="content"> </tbody> </table>'
 print(tableau)
 element = document.getElementById("content")
-def createHTML(ligne, i):
+def createHTML1(ligne, i):
     tr_element = document.createElement('tr')
     th_ligne = document.createElement('th')
     th_ligne.setAttribute("scope","row")
@@ -127,7 +127,7 @@ def createHTML(ligne, i):
     return tr_element
 
 for i in range(len(listeCat)) :
-    element.append(createHTML(listeCat[i], i))
+    element.append(createHTML1(listeCat[i], i))
 def calculKj(kj) :
     if kj == "-" :
         return 0
@@ -275,6 +275,14 @@ def calculScore(valeur) :
         return 2
     else :
         return 1
+    
+dictScore = {
+    1: "A",
+    2: "B",
+    3: "C",
+    4: "D",
+    5: "E"
+    }
 
 kjLable = tableAliments.columns[tableAliments.columns == "Energie, Règlement UE N° 1169/2011 (kJ/100 g)"] #J
 sugarLabel = tableAliments.columns[tableAliments.columns == "Sucres (g/100 g)"] #S
@@ -307,7 +315,7 @@ for i in range(taille) :
         alimHabitant[i][j] = alimHabitant[i][j]-calculProt(valeur)
 
 
-print(alimHabitant)
+#print(alimHabitant)
 
 scoreAlim = []
 for i in range(len(alimHabitant)) :
@@ -315,10 +323,37 @@ for i in range(len(alimHabitant)) :
     for j in range(len(alimHabitant[i]))  :
         scoreAlim[i].append(calculScore(alimHabitant[i][j]))
 
-print(scoreAlim)
+#print(scoreAlim)
 
 scoreHabit = []
 for i in scoreAlim :
     scoreHabit.append(sum(i)/len(i))
 
-print(scoreHabit)
+#print(scoreHabit)
+print("<br> <h2> Tableau des aliments les plus choisis dans le sondage </h2> <br> <p> Le score est calculé avec la moyenne du Nutriscore des 10 produits : </p> <br>")
+tableau = '<table class="table table-striped "><thead class="thead-dark"><tr class="table-dark"><th scope="col">Habitant</th><th scope="col">Score Santé</th><th scope="col">Score moyen des produits</th></tr></thead><tbody id="contentScore"> </tbody> </table>'
+print(tableau)
+element = document.getElementById("contentScore")
+def createHTML2(ligne, s, i):
+    tr_element = document.createElement('tr')
+    th_ligne = document.createElement('th')
+    th_ligne.setAttribute("scope","row")
+    first_name_element = document.createElement('td')
+    score_moyen = document.createElement('td')
+    
+
+    th_ligne.innerText = i
+    first_name_element.innerText = s
+    score_moyen.innerText = ligne
+    
+    tr_element.append(th_ligne)
+    tr_element.append(first_name_element)
+    tr_element.append(score_moyen)
+    
+    return tr_element
+
+nomLabel = tableSondage.columns[tableSondage.columns == "Nom"]
+prenomLabel = tableSondage.columns[tableSondage.columns == "Prénom"]
+for i in range(len(scoreHabit)) :
+    nomPrenom = tableSondage[nomLabel].values[i][0] + " " + tableSondage[prenomLabel].values[i][0]
+    element.append(createHTML2(scoreHabit[i], dictScore[round(scoreHabit[i])], nomPrenom))

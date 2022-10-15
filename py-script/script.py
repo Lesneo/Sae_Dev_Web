@@ -131,25 +131,25 @@ for i in range(len(listeCat)) :
 def calculKj(kj) :
     if kj == "-" :
         return 0
-    elif int(kj) > 3350 :
+    elif float(kj) > 3350 :
         return 10
-    elif int(kj) > 3015 :
+    elif float(kj) > 3015 :
         return 9
-    elif int(kj) > 2680 :
+    elif float(kj) > 2680 :
         return 8
-    elif int(kj) > 2345 :
+    elif float(kj) > 2345 :
         return 7
-    elif int(kj) > 2010 :
+    elif float(kj) > 2010 :
         return 6
-    elif int(kj) > 1675 :
+    elif float(kj) > 1675 :
         return 5
-    elif int(kj) > 1340 :
+    elif float(kj) > 1340 :
         return 4
-    elif int(kj) > 1005 :
+    elif float(kj) > 1005 :
         return 3
-    elif int(kj) > 670 :
+    elif float(kj) > 670 :
         return 2
-    elif int(kj) > 335 :
+    elif float(kj) > 335 :
         return 1
     else :
         return 0
@@ -297,7 +297,7 @@ for i in range(taille) :
     for j in range(len(lables)) :
         score = 0
         aliment = tableSondage[lables[j]][i]
-        valeur = tableAliments[kjLable][tableAliments.alim_code==aliment].values[0][0]
+        valeur = tableAliments[kjLable][tableAliments.alim_code==aliment].values[0][0].replace(",",".")
         #print(valeur)
         alimHabitant[i].append(calculKj(valeur))
         valeur = tableAliments[sugarLabel][tableAliments.alim_code==aliment].values[0][0].replace(",",".").replace("<","").replace(" ","")

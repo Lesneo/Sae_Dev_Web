@@ -27,7 +27,7 @@ for i in range(taille) :
         if "vegan" in nomAliment.values[0] :
             vegan+=1
         if "casher" in catAliment.values[0] :
-            casher+=1
+            casher += 1
     if bio >= 3 :
         habitantBio.append(tableSondage.Nom[i])
     if halal >= 2 :
@@ -104,7 +104,7 @@ def takeSecond(elem):
 #print(listeCat)
 listeCat.sort(key=takeSecond, reverse=True)
 #print(listeCat)
-print("<br> <h2> Tableau des aliments les plus choisis dans le sondage </h2> <br>")
+print("<br> <h2> Tableau des catégories d'aliments les plus choisis dans le sondage </h2> <br>")
 tableau = '<table class="table table-striped "><thead class="thead-dark"><tr class="table-dark"><th scope="col">Classement</th><th scope="col">Catégorie Aliment</th><th scope="col">Nombre d\'itérations</th></tr></thead><tbody id="content"> </tbody> </table>'
 print(tableau)
 element = document.getElementById("content")

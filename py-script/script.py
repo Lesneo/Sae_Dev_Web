@@ -326,7 +326,7 @@ tableau = '<table class="table table-striped "><thead class="thead-dark"><tr cla
 print(tableau)
 element = Element("content")
 for i in range(len(listeCat)) :
-    element.append(createHTML1(listeCat[i], i))
+    element.element.innerHTML(createHTML1(listeCat[i], i))
 
 
 #score habitant

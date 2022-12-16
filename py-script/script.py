@@ -324,7 +324,7 @@ listeCat.sort(key=takeSecond, reverse=True)
 print("<br> <h2> Tableau des aliments les plus choisis dans le sondage </h2> <br>")
 tableau = '<table class="table table-striped "><thead class="thead-dark"><tr class="table-dark"><th scope="col">Classement</th><th scope="col">Catégorie Aliment</th><th scope="col">Nombre d\'itérations</th></tr></thead><tbody id="content"> </tbody> </table>'
 print(tableau)
-element = document.getElementById("content")
+element = js.document.getElementById("content")
 for i in range(len(listeCat)) :
     element.append(createHTML1(listeCat[i], i))
 

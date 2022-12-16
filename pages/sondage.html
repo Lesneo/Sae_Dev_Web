@@ -24,11 +24,6 @@
   <link href="../style/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
   <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-  <py-config>
-    packages = [
-      "pandas"
-    ]
-  </py-config>
 
 </head>
 
@@ -78,6 +73,9 @@
                     Une connexion internet est requise pour accéder au résultat du sondage
                 </strong></p>
             </div>
+            <py-config>
+                packages = ["pandas"]
+            </py-config>
             <py-script src="https://raw.githubusercontent.com/Lesneo/Sae_Dev_Web/main/py-script/script.py">
                 
             </py-script>
